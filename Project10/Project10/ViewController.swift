@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func viewDidLoad() {
@@ -32,10 +32,44 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func addNewPerson() {
+        // Create new instance of UIImagePickerController which lets users select image from camera
         let picker = UIImagePickerController()
+        // Set allowsEditing property to true to allow user to crop selected image
         picker.allowsEditing = true
         picker.delegate = self
         presentViewController(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        var newImage: UIImage
+        
+        // Retrieve value with key UIImagePickerControllerEditedImage from dictionary passed in and optionally type cast as UIImage
+        if let possibleImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            newImage = possibleImage
+        } else {
+            return
+        }
+        
+        let imageName = NSUUID().UUIDString
+        let imagePath = getDocumentsDirectory().stringByAppendingPathComponent(imageName)
+        
+        if let jpegData = UIImageJPEGRepresentation(newImage, 80) {
+            jpegData.writeToFile(imagePath, atomically: true)
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
     }
 }
 
