@@ -46,6 +46,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let person = people[indexPath.item]
+        
+        let ac = UIAlertController(title: "Rename this person", message: nil, preferredStyle: .Alert)
+        ac.addTextFieldWithConfigurationHandler(nil)
+        
+        //Cancel action
+        ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        //Confirm changes action
+        ac.addAction(UIAlertAction(title: "OK", style: .Default) { [unowned self, ac] _ in
+            let newName = ac.textFields![0]
+            person.name = newName.text!
+            
+            self.collectionView.reloadData()
+        })
+        
+        presentViewController(ac, animated: true, completion: nil)
+    }
+    
     func addNewPerson() {
         // Create new instance of UIImagePickerController which lets users select image from camera
         let picker = UIImagePickerController()
