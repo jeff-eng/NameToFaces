@@ -49,17 +49,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let person = people[indexPath.item]
         
+        // Create instance of UIAlertController with a text field
         let ac = UIAlertController(title: "Rename this person", message: nil, preferredStyle: .Alert)
         ac.addTextFieldWithConfigurationHandler(nil)
         
-        //Cancel action
+        // Cancel action
         ac.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         
-        //Confirm changes action
+        // Confirm changes action and assign the text from text field to the Person object's name property
         ac.addAction(UIAlertAction(title: "OK", style: .Default) { [unowned self, ac] _ in
             let newName = ac.textFields![0]
             person.name = newName.text!
             
+            // Reload the collection view with the updated information from user
             self.collectionView.reloadData()
         })
         
