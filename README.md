@@ -7,6 +7,9 @@ Repo following Project 10: Names to Faces with UICollectionView tutorial at www.
 * UICollectionView
   * Adding ```UICollectionViewDataSource``` and ```UICollectionViewDelegate``` protocols to the ViewController class
 * Creating a custom class
+* ```UIImagePickerController``` class
+* Using ```NSUUID``` object's ```UUIDString``` method to create a unique ID name
+* Saving image to JPEG and writing to disk.
 
 ## Attributions
 [Project 10: Name to Faces with UICollectionView](www.hackingwithswift.com/read/10/overview)

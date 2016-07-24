@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
 
+    var people = [Person]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +61,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let imageName = NSUUID().UUIDString
         let imagePath = getDocumentsDirectory().stringByAppendingPathComponent(imageName)
         
+        // UIImageJPEGRepresentation turns the UIImage(the newImage variable) into an NSData object with specified quality and safely unwrap it using 'if let'
         if let jpegData = UIImageJPEGRepresentation(newImage, 80) {
+            // Write to the unique file name created earlier
             jpegData.writeToFile(imagePath, atomically: true)
         }
         
