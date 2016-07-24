@@ -25,11 +25,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return people.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Person", forIndexPath: indexPath) as! PersonCell
+        
+        let person = people[indexPath.item]
+        
+        cell.name.text = person.name
+        
+        let path = getDocumentsDirectory().stringByAppendingPathComponent(person.image)
+        cell.imageView.image = UIImage(contentsOfFile: path)
+        
+        cell.imageView.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).CGColor
+        cell.imageView.layer.borderWidth = 2
+        cell.imageView.layer.cornerRadius = 3
+        cell.layer.cornerRadius = 7
+        
         return cell
     }
     
@@ -66,6 +79,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Write to the unique file name created earlier
             jpegData.writeToFile(imagePath, atomically: true)
         }
+        
+        // Creates new instance of Person object and add its to the people array, then reload collection view
+        let person = Person(name: "Unknown", image: imageName)
+        people.append(person)
+        collectionView.reloadData()
         
         dismissViewControllerAnimated(true, completion: nil)
     }
