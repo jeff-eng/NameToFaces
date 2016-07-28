@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
     @IBOutlet weak var collectionView: UICollectionView!
 
     var people = [Person]()
@@ -17,6 +18,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addNewPerson))
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        // Load people array back from disk when app runs
+        if let savedPeople = defaults.objectForKey("people") as? NSData {
+            people = NSKeyedUnarchiver.unarchiveObjectWithData(savedPeople) as! [Person]
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,6 +71,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             // Reload the collection view with the updated information from user
             self.collectionView.reloadData()
+            
+            // Saves data to NSUserDefaults using the save method
+            self.save()
         })
         
         presentViewController(ac, animated: true, completion: nil)
@@ -102,7 +113,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             jpegData.writeToFile(imagePath, atomically: true)
         }
         
-        // Creates new instance of Person object and add its to the people array, then reload collection view
+        // Creates new instance of Person object and adds it to the people array, then reload collection view
         let person = Person(name: "Unknown", image: imageName)
         people.append(person)
         collectionView.reloadData()
@@ -114,6 +125,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let documentsDirectory = paths[0]
         return documentsDirectory
+    }
+    
+    func save() {
+        // Converts the people array into an NSData object
+        let savedData = NSKeyedArchiver.archivedDataWithRootObject(people)
+        //Saves that data object to NSUserDefaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(savedData, forKey: "people")
     }
 }
 
