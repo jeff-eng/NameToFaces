@@ -63,6 +63,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             // Reload the collection view with the updated information from user
             self.collectionView.reloadData()
+            
+            // Saves data to NSUserDefaults using the save method
+            self.save()
         })
         
         presentViewController(ac, animated: true, completion: nil)
@@ -114,6 +117,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let documentsDirectory = paths[0]
         return documentsDirectory
+    }
+    
+    func save() {
+        // Converts the people array into an NSData object
+        let savedData = NSKeyedArchiver.archivedDataWithRootObject(people)
+        //Saves that data object to NSUserDefaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(savedData, forKey: "people")
     }
 }
 
