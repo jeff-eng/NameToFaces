@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
     @IBOutlet weak var collectionView: UICollectionView!
 
     var people = [Person]()
@@ -17,6 +18,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addNewPerson))
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        // Load people array back from disk when app runs
+        if let savedPeople = defaults.objectForKey("people") as? NSData {
+            people = NSKeyedUnarchiver.unarchiveObjectWithData(savedPeople) as! [Person]
+        }
     }
 
     override func didReceiveMemoryWarning() {
