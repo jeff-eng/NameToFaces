@@ -35,6 +35,7 @@ This repo also follows Project 12: NSUserDefaults, NSCoding, and more as a techn
     ```
 * ```NSCoding``` protocol
 * ```NSKeyedUnarchiver``` and ```NSKeyedArchiver``` class
+  * Loading data to and from disk
 * Nil coalescing operator: ```??```
   * Example:
 
@@ -43,7 +44,7 @@ This repo also follows Project 12: NSUserDefaults, NSCoding, and more as a techn
 
     ```
     * If code on left side is optional and exists, it gets unwrapped into a non-optional value; if it doesn't exist, it uses the value on the right instead.
-    
+
 ## Attributions
-[Project 10: Name to Faces with UICollectionView](https://www.hackingwithswift.com/read/10/overview)
-[Project 12: NSUserDefaults, NSCoding, and more](https://www.hackingwithswift.com/read/12/overview)
+* [Project 10: Name to Faces with UICollectionView](https://www.hackingwithswift.com/read/10/overview)
+* [Project 12: NSUserDefaults, NSCoding, and more](https://www.hackingwithswift.com/read/12/overview)

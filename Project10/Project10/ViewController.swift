@@ -113,7 +113,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             jpegData.writeToFile(imagePath, atomically: true)
         }
         
-        // Creates new instance of Person object and add its to the people array, then reload collection view
+        // Creates new instance of Person object and adds it to the people array, then reload collection view
         let person = Person(name: "Unknown", image: imageName)
         people.append(person)
         collectionView.reloadData()
